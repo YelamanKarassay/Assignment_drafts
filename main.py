@@ -1,6 +1,13 @@
-# pip install big-O
+# libraries used
 import big_o
+from time import sleep
+import big_o
+from tqdm import tqdm
 
+'''
+    This program is written to make hint to myslef while doing assignemtn and in the same time to study new features 
+    of python and practice it. 
+'''
 
 def exercise_2(n):
     a, b = 0, 0
@@ -149,7 +156,10 @@ def exercise_18(n):
 print("N10 ", big_o.big_o(exercise_18, big_o.datagen.n_, max_n=1000, n_repeats=100)[0])
 
 '''
-Output we will get. 
+Output we will get(approximately).
+
+ It can be seen that outputs are not accurate, therefore needed to check percentage of type how many 
+ time the program shows that this is cerain type
 
 N1  Linear: time = -0.00018 + 2.2E-05*n (sec) -
 N2  Linear: time = -0.00023 + 5.6E-05*n (sec) -
@@ -184,3 +194,24 @@ N8  Linear: time = 0.00094 + 0.00045*n (sec)
 N9  Linearithmic: time = 0.0022 + 2E-05*n*log(n) (sec)
 N10  Linear: time = -0.013 + 0.00032*n (sec)
 '''
+
+# this function check the algorithm which type of time complexity it is
+# by using library big_o, and to make it User friendly progress bar added
+def check(func, type_of_complexity_to_check, number_of_repeats, min, max, repeats):
+    counter = 0
+    for _ in tqdm(range(0, number_of_repeats), desc=func.__name__):
+        sleep(.1)
+        if type(big_o.big_o(func, big_o.datagen.n_, min_n=min, max_n=max, n_repeats=repeats)[0]) == type_of_complexity_to_check:
+            counter += 1
+    return counter / number_of_repeats * 100
+
+
+if __name__ == '__main__':
+    '''wanted to use multithreading to run all algorithms in one time but, did not understand the whole idea of threads
+    in python so to check it need spend litte bit more time'''
+    # TODO: realise multithreading
+    print("\n percentage = ", check(exercise_2, big_o.complexities.Linear, 300,1,1000, 100), " % \n")
+    # print("percentage = ", check(exercise_3, big_o.complexities.Linear, 300,1000, 100), " % \n")
+    # print("percentage = ", check(exercise_5, big_o.complexities.Linear, 300, 1000, 100), " % \n")
+    # print("percentage = ", check(exercise_9, big_o.complexities.Quadratic, 300, 10, 100), " % \n")
+    # print("percentage = ", check(exercise_10, big_o.complexities.Linearithmic, 300, 1000, 100), " % \n")
